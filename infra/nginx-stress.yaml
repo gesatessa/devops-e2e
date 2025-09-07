@@ -4,7 +4,7 @@ metadata:
   name: nginx-stress
   namespace: default
 spec:
-  replicas: 30 # 🔥 way more than a single t3.small can handle
+  replicas: 10 # 🔥 put some stress
   selector:
     matchLabels:
       app: nginx-stress

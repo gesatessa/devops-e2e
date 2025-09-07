@@ -19,6 +19,8 @@ resource "aws_iam_role" "aws_lb_controller" {
       }
     ]
   })
+
+  tags = var.tags
 }
 
 # 2. Download the official IAM policy for AWS Load Balancer Controller
@@ -41,6 +43,9 @@ resource "aws_iam_role_policy_attachment" "aws_lb_controller_attach" {
 
 # 5. Kubernetes Service Account with Role Annotation
 resource "kubernetes_service_account" "aws_lb_controller" {
+  #depends_on = [aws_eks_access_policy_association.cluster_admin]
+  depends_on = [time_sleep.wait_for_rbac]
+
   metadata {
     name      = "aws-load-balancer-controller"
     namespace = "kube-system"
